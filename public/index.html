@@ -1,0 +1,117 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DocTranslater</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="background"></div>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Personal Converter</p>
+        <h1>DocTranslater</h1>
+        <p class="intro">
+          一个给个人使用的本地文件转换站。浏览器只负责提交任务，实际转换由你的机器完成。
+        </p>
+      </section>
+
+      <section class="status-panel">
+        <div>
+          <h2>环境状态</h2>
+          <p id="health-summary">正在检查依赖...</p>
+        </div>
+        <button id="refresh-health" type="button">重新检测</button>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>图片格式互转</h2>
+          <p>`png / jpg / webp`</p>
+          <form data-endpoint="/api/convert/image">
+            <input type="file" name="file" accept=".png,.jpg,.jpeg,.webp" required />
+            <select name="targetFormat">
+              <option value="png">PNG</option>
+              <option value="jpg">JPG</option>
+              <option value="webp">WEBP</option>
+            </select>
+            <button type="submit">开始转换</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>文档转 PDF</h2>
+          <p>`docx -> pdf`</p>
+          <form data-endpoint="/api/convert/docx-to-pdf">
+            <input type="file" name="file" accept=".docx" required />
+            <button type="submit">导出 PDF</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>PDF 拆分</h2>
+          <p>按页拆成多个 PDF，并打包下载。</p>
+          <form data-endpoint="/api/pdf/split">
+            <input type="file" name="file" accept=".pdf" required />
+            <button type="submit">拆分 PDF</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>PDF 合并</h2>
+          <p>按你选择的顺序合并多个 PDF。</p>
+          <form data-endpoint="/api/pdf/merge">
+            <input type="file" name="files" accept=".pdf" multiple required />
+            <button type="submit">合并 PDF</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>PDF 转图片</h2>
+          <p>按页导出图片，并打包下载。</p>
+          <form data-endpoint="/api/pdf/to-images">
+            <input type="file" name="file" accept=".pdf" required />
+            <select name="format">
+              <option value="png">PNG</option>
+              <option value="jpg">JPG</option>
+            </select>
+            <button type="submit">导出图片</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>Markdown / HTML</h2>
+          <p>支持双向文本格式转换。</p>
+          <form data-endpoint="/api/text/markdown-html">
+            <input type="file" name="file" accept=".md,.markdown,.html,.htm" required />
+            <select name="direction">
+              <option value="md-to-html">Markdown -> HTML</option>
+              <option value="html-to-md">HTML -> Markdown</option>
+            </select>
+            <button type="submit">开始转换</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h2>音视频转码</h2>
+          <p>`mp4 / mp3`</p>
+          <form data-endpoint="/api/media/transcode">
+            <input type="file" name="file" accept=".mp3,.mp4,.mov,.mkv,.wav,.m4a" required />
+            <select name="targetFormat">
+              <option value="mp3">MP3</option>
+              <option value="mp4">MP4</option>
+            </select>
+            <button type="submit">开始转码</button>
+          </form>
+        </article>
+      </section>
+
+      <section class="log-card">
+        <h2>执行日志</h2>
+        <pre id="log">等待操作...</pre>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

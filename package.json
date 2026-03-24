@@ -1,0 +1,18 @@
+﻿{
+  "name": "doc-translater",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal file conversion website for images, docs, PDFs, markdown/html, and media.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "marked": "^12.0.2",
+    "multer": "^2.0.2",
+    "pdf-lib": "^1.17.1",
+    "turndown": "^7.2.1"
+  }
+}
