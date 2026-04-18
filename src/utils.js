@@ -6,6 +6,9 @@ const toolCandidates = {
   ffmpeg: ["ffmpeg"],
   magick: ["magick", "convert"],
   soffice: ["soffice"],
+  archive: process.platform === "win32"
+    ? ["powershell.exe", "powershell", "pwsh.exe", "pwsh"]
+    : ["zip"],
 };
 
 function ensureDir(dirPath) {
@@ -72,6 +75,12 @@ function requireTool(toolName) {
   if (!resolved) {
     if (toolName === "magick") {
       throw new Error("Missing required tool: ImageMagick. Add `magick` or `convert` to PATH first.");
+    }
+    if (toolName === "archive") {
+      if (process.platform === "win32") {
+        throw new Error("Missing required archive tool: PowerShell. Add `powershell.exe` or `pwsh` to PATH first.");
+      }
+      throw new Error("Missing required tool: zip. Install `zip` and add it to PATH first.");
     }
     throw new Error(`Missing required tool: ${toolName}. Add it to PATH first.`);
   }

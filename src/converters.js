@@ -148,12 +148,17 @@ async function transcodeMedia(inputPath, outputDir, targetFormat) {
 }
 
 async function zipDirectory(inputDir, outputZipPath) {
-  const powershell = process.env.ComSpec ? "powershell.exe" : "powershell";
-  const command = [
-    "-Command",
-    `Compress-Archive -Path '${inputDir.replace(/'/g, "''")}\\*' -DestinationPath '${outputZipPath.replace(/'/g, "''")}' -Force`,
-  ];
-  await runTool(powershell, command);
+  const archiveTool = requireTool("archive");
+  if (process.platform === "win32") {
+    const command = [
+      "-Command",
+      `Compress-Archive -Path '${inputDir.replace(/'/g, "''")}\\*' -DestinationPath '${outputZipPath.replace(/'/g, "''")}' -Force`,
+    ];
+    await runTool(archiveTool, command);
+    return;
+  }
+
+  await runTool(archiveTool, ["-r", "-q", outputZipPath, "."], { cwd: inputDir });
 }
 
 module.exports = {
